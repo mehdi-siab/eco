@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoGuardian AI - El Tarf Ecological Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        // Custom Tailwind configuration (same as alert form for consistency)
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        'eco-primary': '#2a9d8f',
+                        'eco-primary-light': '#3bc1b1',
+                        'eco-primary-dark': '#238a7d',
+                        'eco-secondary': '#e9c46a',
+                        'eco-danger': '#e76f51',
+                        'eco-success': '#52b788',
+                        'eco-info': '#3498db',
+                        'eco-text-primary': '#333333',
+                        'eco-text-secondary': '#666666',
+                        'eco-background': '#f5f7fa',
+                        'eco-surface': '#ffffff',
+                        // Chat specific colors
+                        'chat-user-bg': '#e0e0e0', // A light grey for user messages
+                        'chat-bot-bg': '#d1fae5',  // A light green for bot messages, can adjust
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* For scrollbar styling if needed - Webkit example */
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+        .chat-messages::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1; /* gray-300 */
+            border-radius: 10px;
+        }
+        .chat-messages::-webkit-scrollbar-track {
+            background-color: #f1f5f9; /* gray-100 */
+        }
+        /* For Firefox */
+        .chat-messages {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f1f5f9;
+        }
+
+        /* Typing indicator animation */
+        .dot {
+            animation: typing 1.5s infinite ease-in-out;
+        }
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); opacity: 0.4; }
+            50% { transform: translateY(-4px); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-eco-background font-sans text-eco-text-primary flex flex-col min-h-screen">
+
+    <header class="bg-eco-primary text-white shadow-md">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center">
+            <div class="flex items-center">
+                <i class="fas fa-leaf text-3xl mr-3"></i>
+                <h1 class="text-2xl font-bold">EcoGuardian AI</h1>
+            </div>
+            <nav class="mt-3 sm:mt-0">
+                <ul class="flex space-x-4 sm:space-x-6">
+                    <li><a href="index.html" class="hover:text-eco-secondary transition-colors">Home</a></li>
+                    <li><a href="#assistant" class="text-eco-secondary font-semibold border-b-2 border-eco-secondary">AI Assistant</a></li>
+                    <li><a href="alert.html" class="hover:text-eco-secondary transition-colors">Report Issue</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <div class="lg:col-span-1 bg-eco-surface p-6 rounded-lg shadow-lg h-fit">
+                <h2 class="text-xl font-semibold text-eco-primary border-b border-eco-primary-light pb-2 mb-4">
+                    El Tarf Highlights
+                </h2>
+                <div class="space-y-3 text-sm mb-6">
+                    <div class="p-3 bg-green-50 border-l-4 border-eco-primary rounded-r-md">
+                        <h3 class="font-medium text-eco-primary-dark">El Kala National Park</h3>
+                        <p class="text-eco-text-secondary">UNESCO Biosphere Reserve with diverse ecosystems.</p>
+                    </div>
+                    <div class="p-3 bg-blue-50 border-l-4 border-eco-info rounded-r-md">
+                        <h3 class="font-medium text-eco-info">Lake Tonga</h3>
+                        <p class="text-eco-text-secondary">Freshwater lake, vital for bird species.</p>
+                    </div>
+                    <div class="p-3 bg-yellow-50 border-l-4 border-eco-secondary rounded-r-md">
+                        <h3 class="font-medium text-yellow-700">Key Wildlife</h3>
+                        <p class="text-eco-text-secondary">Barbary deer, macaque, golden jackal, 200+ bird species.</p>
+                    </div>
+                </div>
+
+                <h2 class="text-xl font-semibold text-eco-primary border-b border-eco-primary-light pb-2 mb-4 mt-6">
+                    Language
+                </h2>
+                <select id="language-select" class="w-full px-3 py-2.5 border border-gray-300 rounded-md shadow-sm focus:ring-eco-primary focus:border-eco-primary text-sm">
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                    <option value="ar">العربية</option>
+                </select>
+                <p class="text-xs text-eco-text-secondary mt-2">Select your preferred language for interacting with the AI.</p>
+            </div>
+
+            <div class="lg:col-span-2 bg-eco-surface rounded-lg shadow-lg flex flex-col" style="height: 70vh; max-height: 700px;">
+                <div class="bg-eco-primary text-white p-4 rounded-t-lg flex items-center">
+                    <div class="w-10 h-10 bg-eco-primary-light rounded-full flex items-center justify-center mr-3">
+                        <i class="fas fa-robot text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-semibold">Chat with EcoGuardian AI</h2>
+                        <p class="text-sm opacity-90">Your guide to El Tarf's ecology.</p>
+                    </div>
+                </div>
+
+                <div id="chat-messages" class="flex-grow p-4 sm:p-6 space-y-4 overflow-y-auto bg-gray-50">
+                    <div class="flex message bot">
+                        <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-eco-primary text-white flex items-center justify-center mr-2 sm:mr-3">
+                            <i class="fas fa-robot text-sm sm:text-base"></i>
+                        </div>
+                        <div class="bg-chat-bot-bg text-eco-text-primary p-3 rounded-lg rounded-bl-none max-w-xs sm:max-w-md lg:max-w-lg shadow">
+                            <p class="text-sm">Hello! I'm EcoGuardian. How can I assist you with El Tarf's ecological tourism today?</p>
+                            <span class="text-xs text-eco-text-secondary mt-1 block text-right">12:00 PM</span>
+                        </div>
+                    </div>
+                    </div>
+
+                <div id="typing-indicator" class="p-3 bg-gray-100 border-t border-gray-200 hidden">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-eco-primary text-white flex items-center justify-center mr-3">
+                            <i class="fas fa-robot text-sm"></i>
+                        </div>
+                        <span class="text-sm text-eco-text-secondary italic">EcoGuardian is typing</span>
+                        <div class="flex space-x-1 ml-1">
+                            <span class="dot w-1.5 h-1.5 bg-eco-text-secondary rounded-full"></span>
+                            <span class="dot w-1.5 h-1.5 bg-eco-text-secondary rounded-full"></span>
+                            <span class="dot w-1.5 h-1.5 bg-eco-text-secondary rounded-full"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-100 p-3 sm:p-4 border-t border-gray-200 rounded-b-lg">
+                    <form id="chat-form" class="flex items-center space-x-2 sm:space-x-3">
+                        <input type="text" id="user-input" placeholder="Type your message here..." autocomplete="off"
+                               class="flex-grow px-4 py-2.5 border border-gray-300 rounded-full focus:ring-2 focus:ring-eco-primary focus:border-eco-primary outline-none text-sm transition-shadow">
+                        <button type="submit"
+                                class="bg-eco-primary hover:bg-eco-primary-dark text-white rounded-full p-0 w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center transition-colors shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-eco-primary-light focus:ring-offset-1">
+                            <i class="fas fa-paper-plane text-base sm:text-lg"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-eco-primary-dark text-white text-center py-8 mt-auto">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-sm">&copy; <span id="current-year">2025</span> EcoGuardian AI - Your Ecological Guide.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatForm = document.getElementById('chat-form');
+            const userInput = document.getElementById('user-input');
+            const chatMessagesContainer = document.getElementById('chat-messages');
+            const typingIndicator = document.getElementById('typing-indicator');
+            const languageSelect = document.getElementById('language-select');
+
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            const welcomeMessages = {
+                'en': "Hello! I'm EcoGuardian, your multilingual guide to ecological tourism in El Tarf. How can I assist you today?",
+                'fr': "Bonjour! Je suis EcoGuardian, votre guide multilingue pour le tourisme écologique à El Tarf. Comment puis-je vous aider aujourd'hui?",
+                'ar': "مرحبًا! أنا EcoGuardian، دليلك متعدد اللغات للسياحة البيئية في الطارف. كيف يمكنني مساعدتك اليوم؟"
+            };
+
+            const placeholderMessages = {
+                'en': "Type your message here...",
+                'fr': "Tapez votre message ici...",
+                'ar': "اكتب رسالتك هنا..."
+            };
+
+            // Function to add a message to the chat
+            function addMessageToChat(content, isUser = false, lang = 'en') {
+                const messageWrapper = document.createElement('div');
+                messageWrapper.className = `flex message ${isUser ? 'justify-end user' : 'bot'}`;
+
+                const avatarClass = isUser ? 'bg-eco-secondary text-eco-text-primary' : 'bg-eco-primary text-white';
+                const avatarIcon = isUser ? 'fa-user' : 'fa-robot';
+                const messageBgClass = isUser ? 'bg-chat-user-bg' : 'bg-chat-bot-bg';
+                const roundedCornerClass = isUser ? 'rounded-br-none' : 'rounded-bl-none';
+                const textAlignClass = lang === 'ar' && !isUser ? 'text-right' : (lang === 'ar' && isUser ? 'text-right' : 'text-left');
+
+
+                let messageHTML = `
+                    <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full ${avatarClass} flex items-center justify-center ${isUser ? 'ml-2 sm:ml-3 order-2' : 'mr-2 sm:mr-3 order-1'}">
+                        <i class="fas ${avatarIcon} text-sm sm:text-base"></i>
+                    </div>
+                    <div class="${messageBgClass} text-eco-text-primary p-3 rounded-lg ${roundedCornerClass} max-w-xs sm:max-w-md lg:max-w-lg shadow order-1 ${isUser && lang === 'ar' ? 'text-right' : ''} ${!isUser && lang === 'ar' ? 'text-right' : ''}">
+                        <p class="text-sm ${textAlignClass}">${content}</p>
+                        <span class="text-xs text-eco-text-secondary mt-1 block ${isUser ? 'text-right' : (lang === 'ar' ? 'text-left' : 'text-right')}">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                    </div>
+                `;
+                 if (lang === 'ar' && isUser) {
+                     messageHTML = `
+                        <div class="${messageBgClass} text-eco-text-primary p-3 rounded-lg ${roundedCornerClass} max-w-xs sm:max-w-md lg:max-w-lg shadow order-1 text-right">
+                            <p class="text-sm text-right">${content}</p>
+                            <span class="text-xs text-eco-text-secondary mt-1 block text-left">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                        </div>
+                        <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full ${avatarClass} flex items-center justify-center ml-2 sm:ml-3 order-2">
+                            <i class="fas ${avatarIcon} text-sm sm:text-base"></i>
+                        </div>`;
+                }
+
+
+                messageWrapper.innerHTML = messageHTML;
+                chatMessagesContainer.appendChild(messageWrapper);
+                chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight; // Scroll to bottom
+            }
+            
+            // Initial welcome message based on selected language
+            function initializeChatLanguage(lang) {
+                chatMessagesContainer.innerHTML = ''; // Clear previous messages
+                addMessageToChat(welcomeMessages[lang], false, lang);
+                userInput.placeholder = placeholderMessages[lang];
+                
+                // Handle RTL for Arabic
+                if (lang === 'ar') {
+                    chatMessagesContainer.dir = "rtl";
+                    userInput.dir = "rtl";
+                    // Adjust overall page direction if desired, or specific elements
+                    // document.documentElement.dir = "rtl"; // For whole page
+                } else {
+                    chatMessagesContainer.dir = "ltr";
+                    userInput.dir = "ltr";
+                    // document.documentElement.dir = "ltr";
+                }
+            }
+
+            initializeChatLanguage(languageSelect.value);
+
+
+            // Simulate bot typing effect
+            function showTyping() {
+                typingIndicator.classList.remove('hidden');
+                chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+            }
+            
+            function hideTyping() {
+                typingIndicator.classList.add('hidden');
+            }
+            
+            // Handle user message submission
+            chatForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const messageText = userInput.value.trim();
+                if (!messageText) return;
+
+                const currentLang = languageSelect.value;
+                addMessageToChat(messageText, true, currentLang);
+                userInput.value = '';
+                
+                showTyping();
+                
+                // Simulate bot response (Replace with actual AI integration)
+                setTimeout(() => {
+                    hideTyping();
+                    let botResponse = "I'm processing your request... (This is a placeholder response. Full AI integration is pending.)";
+                    if (currentLang === 'fr') {
+                        botResponse = "Je traite votre demande... (Ceci est une réponse fictive. L'intégration complète de l'IA est en attente.)";
+                    } else if (currentLang === 'ar') {
+                        botResponse = "أقوم بمعالجة طلبك... (هذه إجابة مبدئية. التكامل الكامل للذكاء الاصطناعي قيد الانتظار.)";
+                    }
+                    addMessageToChat(botResponse, false, currentLang);
+                }, 1500 + Math.random() * 1000); // Simulate variable response time
+            });
+            
+            // Handle language change
+            languageSelect.addEventListener('change', function() {
+                initializeChatLanguage(this.value);
+            });
+        });
+    </script>
+</body>
+</html>

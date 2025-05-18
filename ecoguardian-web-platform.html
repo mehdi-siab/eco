@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoGuardian AI - Ecological Tourism Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        // Custom Tailwind configuration
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        'eco-primary': '#2a9d8f',
+                        'eco-primary-light': '#3bc1b1',
+                        'eco-primary-dark': '#238a7d',
+                        'eco-secondary': '#e9c46a',
+                        'eco-danger': '#e76f51',
+                        'eco-success': '#52b788',
+                        'eco-info': '#3498db',
+                        'eco-text-primary': '#333333',
+                        'eco-text-secondary': '#666666',
+                        'eco-background': '#f5f7fa',
+                        'eco-surface': '#ffffff',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Minor global styles */
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Active Nav Link Style */
+        .nav-link.active {
+            color: #e9c46a; /* eco-secondary for active link */
+            border-bottom-color: #e9c46a; /* eco-secondary */
+        }
+        /* Tab content animation */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom scrollbar for content areas if needed */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1; /* gray-300 */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background-color: #f1f5f9; /* gray-100 */
+        }
+        .custom-scrollbar {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f1f5f9;
+        }
+    </style>
+</head>
+<body class="bg-eco-background font-sans text-eco-text-primary flex flex-col min-h-screen">
+
+    <div class="bg-eco-surface shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-2 flex justify-end items-center space-x-1">
+            <button class="lang-btn px-3 py-1 text-xs font-medium rounded hover:bg-gray-200 text-eco-text-secondary" data-lang="en">EN</button>
+            <button class="lang-btn px-3 py-1 text-xs font-medium rounded hover:bg-gray-200 text-eco-text-secondary" data-lang="fr">FR</button>
+            <button class="lang-btn px-3 py-1 text-xs font-medium rounded hover:bg-gray-200 text-eco-text-secondary" data-lang="ar">AR</button>
+        </div>
+    </div>
+
+    <header class="bg-eco-primary text-white shadow-lg sticky top-0 z-40">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center">
+            <a href="#home" class="flex items-center mb-4 md:mb-0" data-tab="home">
+                <img src="https://placehold.co/48x48/e9c46a/2a9d8f?text=EG" alt="EcoGuardian Logo" class="h-10 w-10 sm:h-12 sm:w-12 mr-3 rounded-full">
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-bold">EcoGuardian AI</h1>
+                    <p class="text-xs sm:text-sm opacity-80">Promoting Ecological Tourism in El Tarf</p>
+                </div>
+            </a>
+            
+            <nav class="flex flex-wrap justify-center items-center space-x-3 sm:space-x-5 text-sm sm:text-base">
+                <a href="#home" class="nav-link px-2 py-2 font-medium border-b-2 border-transparent hover:text-eco-secondary hover:border-eco-secondary transition-all duration-200 active" data-tab="home">Home</a>
+                <a href="ecoguardian-chatbot-webpage.html" class="nav-link px-2 py-2 font-medium border-b-2 border-transparent hover:text-eco-secondary hover:border-eco-secondary transition-all duration-200" data-tab="assistant">AI Assistant</a>
+                <a href="monument-ar-quiz.html" class="nav-link px-2 py-2 font-medium border-b-2 border-transparent hover:text-eco-secondary hover:border-eco-secondary transition-all duration-200" data-tab="games">Eco Games</a>
+                <a href="#locations" class="nav-link px-2 py-2 font-medium border-b-2 border-transparent hover:text-eco-secondary hover:border-eco-secondary transition-all duration-200" data-tab="locations">Discover</a>
+                <a href="ecoguardian-alert-form.html" class="nav-link px-2 py-2 font-medium border-b-2 border-transparent hover:text-eco-secondary hover:border-eco-secondary transition-all duration-200" data-tab="alerts">Alerts</a>
+                <a href="#badges" class="nav-link px-2 py-2 font-medium border-b-2 border-transparent hover:text-eco-secondary hover:border-eco-secondary transition-all duration-200" data-tab="badges">Eco Badges</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        
+        <div id="home" class="tab-content active">
+            <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 mb-12 sm:mb-16 items-center">
+                <div class="text-center lg:text-left">
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-eco-text-primary">
+                        Welcome to <span class="text-eco-primary">EcoGuardian AI</span>
+                    </h2>
+                    <p class="text-base sm:text-lg text-eco-text-secondary mb-8">
+                        Your intelligent companion for ecological tourism in El Tarf. Discover the natural beauty of the region while helping to preserve its unique environment.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center lg:justify-start space-y-3 sm:space-y-0 sm:space-x-4">
+                        <button class="btn-action bg-eco-primary hover:bg-eco-primary-dark text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:scale-105 flex items-center justify-center text-sm sm:text-base" data-tab-target="assistant">
+                            <i class="fas fa-robot mr-2"></i> Chat with EcoGuardian
+                        </button>
+                        <button class="btn-action bg-eco-surface hover:bg-gray-100 text-eco-primary border border-eco-primary font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:scale-105 flex items-center justify-center text-sm sm:text-base" data-tab-target="locations">
+                            <i class="fas fa-map-marked-alt mr-2"></i> Explore Locations
+                        </button>
+                    </div>
+                </div>
+                <div class="rounded-xl overflow-hidden shadow-2xl aspect-w-16 aspect-h-9">
+                    <img src="https://placehold.co/600x400/2a9d8f/ffffff?text=El+Tarf+Nature" alt="El Tarf Natural Reserve" class="w-full h-full object-cover">
+                </div>
+            </section>
+
+            <section class="mb-12 sm:mb-16">
+                <h3 class="text-2xl sm:text-3xl font-bold mb-8 text-center text-eco-text-primary">Platform Features</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                    <div class="card bg-eco-surface p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 text-center">
+                        <div class="text-4xl text-eco-primary mb-4"><i class="fas fa-comments"></i></div>
+                        <h4 class="text-lg sm:text-xl font-semibold mb-2 text-eco-text-primary">Multilingual AI Assistant</h4>
+                        <p class="text-sm text-eco-text-secondary">Interact naturally in English, French, or Arabic.</p>
+                    </div>
+                    <div class="card bg-eco-surface p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 text-center">
+                        <div class="text-4xl text-eco-secondary mb-4"><i class="fas fa-gamepad"></i></div>
+                        <h4 class="text-lg sm:text-xl font-semibold mb-2 text-eco-text-primary">Interactive Eco Games</h4>
+                        <p class="text-sm text-eco-text-secondary">Fun, educational games and AR quizzes.</p>
+                    </div>
+                    <div class="card bg-eco-surface p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 text-center">
+                        <div class="text-4xl text-eco-danger mb-4"><i class="fas fa-exclamation-triangle"></i></div>
+                        <h4 class="text-lg sm:text-xl font-semibold mb-2 text-eco-text-primary">Environmental Alerts</h4>
+                        <p class="text-sm text-eco-text-secondary">Report issues and stay informed.</p>
+                    </div>
+                    <div class="card bg-eco-surface p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 text-center">
+                        <div class="text-4xl text-eco-success mb-4"><i class="fas fa-award"></i></div>
+                        <h4 class="text-lg sm:text-xl font-semibold mb-2 text-eco-text-primary">Eco Badge Rewards</h4>
+                        <p class="text-sm text-eco-text-secondary">Earn badges for positive actions.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-eco-primary-light bg-opacity-20 p-6 sm:p-8 rounded-xl shadow-lg">
+                <h3 class="text-2xl sm:text-3xl font-bold mb-4 text-eco-primary-dark text-center">About El Tarf</h3>
+                <p class="text-eco-text-secondary mb-4 text-center sm:text-lg leading-relaxed max-w-3xl mx-auto">
+                    El Tarf, a jewel of Algeria's coastline, boasts rich biodiversity across its mountains, beaches, and historical sites. It's an ideal destination for ecological tourism and vital for environmental preservation.
+                </p>
+                <p class="text-eco-text-secondary text-center sm:text-lg leading-relaxed max-w-3xl mx-auto">
+                    EcoGuardian AI leverages technology to promote sustainable practices, helping protect this unique natural heritage for generations to come.
+                </p>
+            </section>
+        </div>
+
+        <div id="assistant" class="tab-content">
+            <h2 class="text-2xl sm:text-3xl font-bold mb-6 text-eco-text-primary">AI Assistant</h2>
+            <div class="bg-eco-surface p-6 sm:p-8 rounded-xl shadow-lg text-center">
+                <i class="fas fa-cogs text-6xl text-eco-primary mb-4"></i>
+                <p class="text-lg text-eco-text-secondary">The AI Assistant component will be integrated here.</p>
+                <p class="text-sm text-eco-text-secondary mt-2">This section will house the interactive multilingual chatbot for information on El Tarf's ecology, wildlife, and sustainable tourism.</p>
+                </div>
+        </div>
+
+        <div id="games" class="tab-content">
+            <h2 class="text-2xl sm:text-3xl font-bold mb-6 text-eco-text-primary">Eco Games & Quizzes</h2>
+            <div class="bg-eco-surface p-6 sm:p-8 rounded-xl shadow-lg text-center">
+                <i class="fas fa-puzzle-piece text-6xl text-eco-secondary mb-4"></i>
+                <p class="text-lg text-eco-text-secondary">Interactive games and AR quizzes will be available here.</p>
+                <p class="text-sm text-eco-text-secondary mt-2">Engage with educational content about flora, fauna, historical sites, and environmental preservation through fun challenges.</p>
+                 </div>
+        </div>
+
+        <div id="locations" class="tab-content">
+            <h2 class="text-2xl sm:text-3xl font-bold mb-6 text-eco-text-primary">Discover El Tarf's Ecological Sites</h2>
+            <div class="bg-eco-surface p-6 sm:p-8 rounded-xl shadow-lg text-center">
+                <i class="fas fa-map-signs text-6xl text-eco-info mb-4"></i>
+                <p class="text-lg text-eco-text-secondary">An interactive map and location directory will be featured here.</p>
+                <p class="text-sm text-eco-text-secondary mt-2">Explore mountains, beaches, archaeological sites, eco-friendly hotels, and restaurants in El Tarf.</p>
+                <div class="mt-6">
+                    <img src="https://placehold.co/800x400/e2e8f0/9ca3af?text=Interactive+Map+Placeholder" alt="Map of El Tarf Placeholder" class="w-full max-w-3xl mx-auto h-auto rounded-lg shadow-md">
+                </div>
+            </div>
+        </div>
+
+        <div id="alerts" class="tab-content">
+            <h2 class="text-2xl sm:text-3xl font-bold mb-6 text-eco-text-primary">Environmental Alerts</h2>
+            <div class="bg-eco-surface p-6 sm:p-8 rounded-xl shadow-lg text-center">
+                <i class="fas fa-bullhorn text-6xl text-eco-danger mb-4"></i>
+                <p class="text-lg text-eco-text-secondary">Report environmental issues and view current alerts here.</p>
+                <p class="text-sm text-eco-text-secondary mt-2">Help protect El Tarf by reporting pollution, fire risks, or wildlife concerns. Stay updated on active environmental advisories.</p>
+                <a href="ecoguardian-alert-form.html" class="mt-6 inline-block bg-eco-danger hover:bg-opacity-90 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:scale-105">
+                    Report an Issue
+                </a>
+            </div>
+        </div>
+
+        <div id="badges" class="tab-content">
+            <h2 class="text-2xl sm:text-3xl font-bold mb-6 text-eco-text-primary">Eco Badges & Achievements</h2>
+            <div class="bg-eco-surface p-6 sm:p-8 rounded-xl shadow-lg text-center">
+                <i class="fas fa-trophy text-6xl text-eco-success mb-4"></i>
+                <p class="text-lg text-eco-text-secondary">Track your eco-achievements and earned badges here.</p>
+                <p class="text-sm text-eco-text-secondary mt-2">Complete activities, learn about conservation, and climb the leaderboard to become an EcoGuardian Champion!</p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-eco-primary-dark text-white text-center py-10 mt-auto">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-4">
+                <a href="#home" class="hover:text-eco-secondary transition-colors mx-2">Home</a> |
+                <a href="#assistant" class="hover:text-eco-secondary transition-colors mx-2">AI Assistant</a> |
+                <a href="#games" class="hover:text-eco-secondary transition-colors mx-2">Eco Games</a> |
+                <a href="#alerts" class="hover:text-eco-secondary transition-colors mx-2">Alerts</a>
+            </div>
+            <p class="text-sm">&copy; <span id="current-year">2025</span> EcoGuardian AI. All Rights Reserved.</p>
+            <p class="text-xs mt-1 opacity-75">Dedicated to preserving the natural beauty of El Tarf, Algeria.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const actionButtons = document.querySelectorAll('.btn-action[data-tab-target]');
+            const langButtons = document.querySelectorAll('.lang-btn');
+            let currentLanguage = 'en'; // Default language
+
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            function setActiveTab(tabId) {
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === `#${tabId}`) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+                tabContents.forEach(content => {
+                    if (content.id === tabId) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+                // Update URL hash, for SPA this would be router.push()
+                if (history.pushState) {
+                    history.pushState(null, null, `#${tabId}`);
+                } else {
+                    location.hash = `#${tabId}`;
+                }
+            }
+
+            // Initial tab setup based on URL hash or default to 'home'
+            const initialTab = window.location.hash.substring(1) || 'home';
+            setActiveTab(initialTab);
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const tabId = this.getAttribute('data-tab');
+                    setActiveTab(tabId);
+                });
+            });
+            
+            actionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab-target');
+                    setActiveTab(tabId);
+                     // Scroll to the top of the main content area for better UX after tab switch
+                    document.querySelector('main').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            // Language switcher functionality (basic example)
+            langButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    currentLanguage = this.getAttribute('data-lang');
+                    console.log(`Language changed to: ${currentLanguage.toUpperCase()}`);
+                    // Add class to active lang button
+                    langButtons.forEach(btn => btn.classList.remove('bg-gray-300', 'font-semibold'));
+                    this.classList.add('bg-gray-300', 'font-semibold');
+                    // Here you would typically re-render text content or fetch localized content
+                    // For this example, it just logs to console.
+                    // updateUIText(currentLanguage); // Hypothetical function
+                });
+                // Set initial active language button
+                if (button.getAttribute('data-lang') === currentLanguage) {
+                    button.classList.add('bg-gray-300', 'font-semibold');
+                }
+            });
+            
+            // Handle back/forward browser navigation for hash changes
+            window.addEventListener('popstate', function() {
+                const tabId = window.location.hash.substring(1) || 'home';
+                setActiveTab(tabId);
+            });
+
+        });
+    </script>
+
+</body>
+</html>

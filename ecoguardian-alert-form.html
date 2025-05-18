@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoGuardian Alert System - Report Environmental Concerns</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        // Custom Tailwind configuration
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        'eco-primary': '#2a9d8f', // EcoGuardian Green (from main platform)
+                        'eco-primary-light': '#3bc1b1',
+                        'eco-primary-dark': '#238a7d',
+                        'eco-secondary': '#e9c46a', // Yellow/Gold
+                        'eco-danger': '#e76f51',   // Softer Red
+                        'eco-danger-light': '#f28f76',
+                        'eco-success': '#52b788',
+                        'eco-info': '#3498db', // A clear blue for info
+                        'eco-text-primary': '#333333',
+                        'eco-text-secondary': '#666666',
+                        'eco-background': '#f5f7fa',
+                        'eco-surface': '#ffffff',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Minor custom styles if absolutely necessary, prefer Tailwind classes */
+        .required::after {
+            content: '*';
+            color: #e76f51; /* eco-danger */
+            margin-left: 4px;
+        }
+        .modal {
+            transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+        }
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            transition: transform 0.3s ease-out;
+        }
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-eco-background font-sans text-eco-text-primary leading-relaxed">
+
+    <header class="bg-eco-primary text-white shadow-md">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center">
+            <div class="flex items-center">
+                <i class="fas fa-leaf text-3xl mr-3"></i>
+                <h1 class="text-2xl font-bold">EcoGuardian AI</h1>
+            </div>
+            <nav class="mt-3 sm:mt-0">
+                <ul class="flex space-x-4 sm:space-x-6">
+                    <li><a href="index.html" class="hover:text-eco-secondary transition-colors">Home</a></li>
+                    <li><a href="#about" class="hover:text-eco-secondary transition-colors">About El Tarf</a></li>
+                    <li><a href="alert.html" class="text-eco-secondary font-semibold border-b-2 border-eco-secondary">Report Issue</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="bg-eco-danger text-white py-6 text-center shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-semibold flex items-center justify-center">
+                <i class="fas fa-exclamation-triangle mr-3"></i> Environmental Alert Reporting System
+            </h2>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <div class="lg:col-span-1 bg-eco-surface p-6 rounded-lg shadow-lg">
+                <h3 class="text-xl font-semibold text-eco-danger border-b-2 border-eco-danger-light pb-2 mb-6">
+                    Types of Environmental Concerns
+                </h3>
+                <div class="space-y-6 mb-6">
+                    <div class="flex items-start p-3 rounded-md hover:bg-red-50 transition-colors">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-eco-danger text-white flex items-center justify-center mr-4">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-eco-text-primary">Fire Hazards</h4>
+                            <p class="text-sm text-eco-text-secondary">Report wildfires, unauthorized campfires, or fire risks.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-3 rounded-md hover:bg-yellow-50 transition-colors">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-eco-secondary text-eco-text-primary flex items-center justify-center mr-4">
+                            <i class="fas fa-trash"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-eco-text-primary">Pollution & Waste</h4>
+                            <p class="text-sm text-eco-text-secondary">Report illegal dumping, water pollution, or excessive waste.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-3 rounded-md hover:bg-blue-50 transition-colors">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-eco-info text-white flex items-center justify-center mr-4">
+                            <i class="fas fa-paw"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-eco-text-primary">Wildlife Concerns</h4>
+                            <p class="text-sm text-eco-text-secondary">Report poaching, injured wildlife, or illegal trafficking.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-3 rounded-md hover:bg-gray-100 transition-colors">
+                         <div class="flex-shrink-0 w-10 h-10 rounded-full bg-gray-600 text-white flex items-center justify-center mr-4">
+                            <i class="fas fa-tree"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-eco-text-primary">Illegal Logging</h4>
+                            <p class="text-sm text-eco-text-secondary">Report unauthorized tree cutting or deforestation.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-red-50 border border-eco-danger-light rounded-md p-4 mb-6">
+                    <h4 class="text-lg font-semibold text-eco-danger mb-3 flex items-center">
+                        <i class="fas fa-phone-alt mr-2"></i> Emergency Contacts
+                    </h4>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center"><i class="fas fa-fire-extinguisher mr-2 text-eco-danger w-5 text-center"></i> Fire Emergency: <strong>14</strong></li>
+                        <li class="flex items-center"><i class="fas fa-ambulance mr-2 text-eco-danger w-5 text-center"></i> Medical Emergency: <strong>16</strong></li>
+                        <li class="flex items-center"><i class="fas fa-shield-alt mr-2 text-eco-danger w-5 text-center"></i> Park Rangers: <strong>+213 38 60 10 12</strong></li>
+                        <li class="flex items-center"><i class="fas fa-building mr-2 text-eco-danger w-5 text-center"></i> El Tarf Env. Office: <strong>+213 38 60 85 10</strong></li>
+                    </ul>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-eco-secondary p-4 rounded-md">
+                    <h4 class="text-lg font-semibold text-yellow-700 mb-2 flex items-center">
+                        <i class="fas fa-lightbulb mr-2"></i> Important Tip
+                    </h4>
+                    <p class="text-sm text-yellow-800">
+                        For immediate emergencies, please contact authorities directly. This form is for non-emergency reporting and will be processed within 24-48 hours.
+                    </p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 bg-eco-surface p-6 rounded-lg shadow-lg">
+                <h3 class="text-xl font-semibold text-eco-primary border-b-2 border-eco-primary-light pb-2 mb-6">
+                    Report an Environmental Issue
+                </h3>
+                <form id="alert-form" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-eco-text-primary mb-1 required" for="alert-type">Type of Issue</label>
+                        <select id="alert-type" required class="w-full px-4 py-2.5 border border-gray-300 rounded-md shadow-sm focus:ring-eco-primary focus:border-eco-primary text-sm">
+                            <option value="" disabled selected>Select issue type</option>
+                            <option value="fire">Fire or Fire Hazard</option>
+                            <option value="pollution">Pollution or Waste</option>
+                            <option value="wildlife">Wildlife Concern</option>
+                            <option value="logging">Illegal Logging</option>
+                            <option value="construction">Unauthorized Construction</option>
+                            <option value="water">Water Resource Issue</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-eco-text-primary mb-1 required" for="reporter-name">Your Name</label>
+                            <input type="text" id="reporter-name" required class="w-full px-4 py-2.5 border border-gray-300 rounded-md shadow-sm focus:ring-eco-primary focus:border-eco-primary text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-eco-text-primary mb-1 required" for="reporter-phone">Phone Number</label>
+                            <input type="tel" id="reporter-phone" required class="w-full px-4 py-2.5 border border-gray-300 rounded-md shadow-sm focus:ring-eco-primary focus:border-eco-primary text-sm">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-eco-text-primary mb-1" for="reporter-email">Email Address</label>
+                        <input type="email" id="reporter-email" class="w-full px-4 py-2.5 border border-gray-300 rounded-md shadow-sm focus:ring-eco-primary focus:border-eco-primary text-sm">
+                        <p class="text-xs text-eco-text-secondary mt-1">Optional, but recommended for follow-up.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-eco-text-primary mb-1 required" for="incident-location">Location Description</label>
+                        <input type="text" id="incident-location" placeholder="e.g., Near Lake Tonga, east side" required class="w-full px-4 py-2.5 border border-gray-300 rounded-md shadow-sm focus:ring-eco-primary focus:border-eco-primary text-sm">
+                    </div>
+                    
+                    <div class="border border-gray-200 rounded-md p-4">
+                        <label class="block text-sm font-medium text-eco-text-primary mb-2">Pinpoint Location (Optional)</label>
+                        <div class="bg-gray-200 w-full h-48 rounded-md flex items-center justify-center text-gray-500 mb-3 relative overflow-hidden">
+                            <img src="https://placehold.co/600x200/e2e8f0/9ca3af?text=Map+Preview" alt="Map placeholder" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black bg-opacity-5 flex items-center justify-center">
+                                 <i class="fas fa-map-marker-alt text-eco-danger text-3xl transform -translate-y-4" style="text-shadow: 0 1px 3px rgba(0,0,0,0.3);"></i>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <button type="button" id="use-current-location" class="w-full sm:w-auto flex-1 text-sm bg-eco-info hover:bg-opacity-90 text-white px-4 py-2.5 rounded-md shadow-sm flex items-center justify-center transition-colors">
+                                <i class="fas fa-location-arrow mr-2"></i> Use Current Location
+                            </button>
+                            <button type="button" id="select-on-map" class="w-full sm:w-auto flex-1 text-sm bg-gray-200 hover:bg-gray-300 text-eco-text-primary px-4 py-2.5 rounded-md shadow-sm flex items-center justify-center transition-colors">
+                                <i class="fas fa-map-marked-alt mr-2"></i> Select on Map
+                            </button>
+                        </div>
+                         <p class="text-xs text-eco-text-secondary mt-2">This feature will use your device's GPS or allow manual map selection.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-eco-text-primary mb-1 required" for="incident-description">Detailed Description</label>
+                        <textarea id="incident-description" rows="5" placeholder="Please describe what you observed..." required class="w-full px-4 py-2.5 border border-gray-300 rounded-md shadow-sm focus:ring-eco-primary focus:border-eco-primary text-sm resize-vertical"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-eco-text-primary mb-1" for="urgency-level">Urgency Level</label>
+                        <select id="urgency-level" class="w-full px-4 py-2.5 border border-gray-300 rounded-md shadow-sm focus:ring-eco-primary focus:border-eco-primary text-sm">
+                            <option value="low">Low - No immediate threat</option>
+                            <option value="medium" selected>Medium - Should be addressed soon</option>
+                            <option value="high">High - Requires prompt attention</option>
+                            <option value="critical">Critical - Immediate response needed</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-eco-text-primary mb-1" for="photo-upload">Upload Photos (Optional)</label>
+                        <input type="file" id="photo-upload" accept="image/*" multiple class="w-full text-sm text-eco-text-secondary file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-eco-primary-light file:text-eco-primary-dark hover:file:bg-eco-primary">
+                        <p class="text-xs text-eco-text-secondary mt-1">Max 3 photos, 5MB each. JPG, PNG, GIF accepted.</p>
+                    </div>
+
+                    <div class="pt-4">
+                        <div class="bg-green-50 border border-eco-success rounded-md p-4 mb-6 flex items-start">
+                            <i class="fas fa-shield-alt text-eco-success text-xl mr-3 mt-1"></i>
+                            <div>
+                                <h5 class="font-semibold text-eco-primary-dark">Privacy Note</h5>
+                                <p class="text-sm text-eco-text-secondary">
+                                Your personal information will be kept confidential and used only for communication regarding this report.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button type="submit" class="w-full sm:w-auto flex-1 bg-eco-primary hover:bg-eco-primary-dark text-white font-semibold px-6 py-3 rounded-md shadow-sm flex items-center justify-center transition-colors text-base">
+                                <i class="fas fa-paper-plane mr-2"></i> Submit Report
+                            </button>
+                            <button type="reset" class="w-full sm:w-auto flex-1 bg-gray-200 hover:bg-gray-300 text-eco-text-primary font-semibold px-6 py-3 rounded-md shadow-sm flex items-center justify-center transition-colors text-base">
+                                <i class="fas fa-times mr-2"></i> Clear Form
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50 opacity-0 invisible" id="success-modal">
+        <div class="modal-content bg-eco-surface rounded-lg shadow-xl w-full max-w-md p-6 sm:p-8 text-center transform -translate-y-10">
+            <button class="modal-close absolute top-4 right-4 text-gray-400 hover:text-eco-danger text-2xl" id="close-modal" aria-label="Close modal">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="mb-6">
+                <div class="w-20 h-20 bg-eco-success text-white rounded-full flex items-center justify-center text-4xl mx-auto mb-5">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h3 class="text-2xl font-semibold text-eco-success mb-3">Report Submitted Successfully!</h3>
+                <p class="text-eco-text-secondary mb-4">
+                    Thank you for helping protect El Tarf's natural environment. Your report has been received and will be reviewed promptly.
+                </p>
+                <p class="text-sm text-eco-text-secondary">Report Reference: <strong id="report-reference" class="text-eco-primary-dark">EC-LOADING...</strong></p>
+            </div>
+            
+            <button class="w-full bg-eco-primary hover:bg-eco-primary-dark text-white font-semibold px-6 py-3 rounded-md shadow-sm transition-colors text-base" id="close-success-modal">
+                OK, Got it!
+            </button>
+        </div>
+    </div>
+
+    <footer class="bg-eco-primary-dark text-white text-center py-8 mt-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-sm">&copy; <span id="current-year">2025</span> EcoGuardian AI - Protecting El Tarf's natural heritage.</p>
+            <p class="text-xs mt-1">Powered by AI for a sustainable future.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const alertForm = document.getElementById('alert-form');
+            const successModal = document.getElementById('success-modal');
+            const closeModalButton = document.getElementById('close-modal');
+            const closeSuccessModalButton = document.getElementById('close-success-modal');
+            const useCurrentLocationButton = document.getElementById('use-current-location');
+            const selectOnMapButton = document.getElementById('select-on-map');
+            const reportReferenceElement = document.getElementById('report-reference');
+            
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Generate random report reference
+            function generateReference() {
+                const date = new Date();
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const random = Math.floor(Math.random() * 100000).toString().padStart(5, '0');
+                return `EC-${year}${month}${day}-${random}`;
+            }
+            
+            // Handle form submission
+            alertForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Basic client-side validation (Tailwind doesn't add this by default for 'required')
+                let isValid = true;
+                alertForm.querySelectorAll('[required]').forEach(input => {
+                    if (!input.value.trim()) {
+                        isValid = false;
+                        input.classList.add('border-eco-danger'); // Highlight empty required fields
+                        // Consider adding a small text error message below the input
+                    } else {
+                        input.classList.remove('border-eco-danger');
+                    }
+                });
+
+                if (!isValid) {
+                    // Optionally, show a general error message or scroll to the first invalid field
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+
+                // Here you would typically send the data to your server
+                // For example, using FormData and fetch:
+                // const formData = new FormData(alertForm);
+                // fetch('/api/alerts/report', { method: 'POST', body: formData })
+                //   .then(response => response.json())
+                //   .then(data => { /* handle success */ })
+                //   .catch(error => { /* handle error */ });
+                
+                console.log('Form submitted. Data (simulated):', Object.fromEntries(new FormData(alertForm)));
+
+                reportReferenceElement.textContent = generateReference();
+                successModal.classList.add('active');
+                successModal.querySelector('.modal-content').style.transform = 'translateY(0)';
+            });
+            
+            function closeModal() {
+                successModal.classList.remove('active');
+                successModal.querySelector('.modal-content').style.transform = 'translateY(-40px)'; // Reset transform for next open
+                // alertForm.reset(); // Optional: reset the form after submission
+            }
+
+            closeModalButton.addEventListener('click', closeModal);
+            closeSuccessModalButton.addEventListener('click', closeModal);
+            
+            // Close modal if clicked outside (on the backdrop)
+            successModal.addEventListener('click', function(e) {
+                if (e.target === successModal) {
+                    closeModal();
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === "Escape" && successModal.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+            
+            // --- Location Button Handlers (Placeholder Functionality) ---
+            useCurrentLocationButton.addEventListener('click', function() {
+                // In a real implementation:
+                // 1. Check for Geolocation API support
+                // 2. Request permission: navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
+                // 3. On success: get coords, update a hidden form field, maybe show on a map preview.
+                // 4. On error: handle gracefully (e.g., permission denied, unavailable).
+                alert('Simulating: Requesting user\'s current location...\nThis would use the browser\'s Geolocation API.');
+                // Example: document.getElementById('incident-location').value = 'Lat: 36.77, Long: 3.06 (Simulated)';
+            });
+            
+            selectOnMapButton.addEventListener('click', function() {
+                // In a real implementation:
+                // 1. Show a map modal (e.g., using Leaflet.js or Google Maps API).
+                // 2. Allow user to click/drag a marker.
+                // 3. On confirmation, get selected coords and update hidden form fields.
+                alert('Simulating: Opening an interactive map for location selection...\nThis would involve a mapping library.');
+            });
+        });
+    </script>
+</body>
+</html>
