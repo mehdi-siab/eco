@@ -3,81 +3,81 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monument AR Quiz</title>
-  <!-- 1) Include A-Frame library -->
+  <title>Eco Tourism AR Quiz</title>
+  <!-- A‑Frame core -->
   <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-  <!-- 2) Include AR.js for marker-based AR -->
+  <!-- AR.js for marker tracking -->
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
   <style>
-    /* 3) Make sure body takes full screen and hides overflow */
     body, html { margin: 0; padding: 0; overflow: hidden; }
-    /* 4) Quiz modal styles (hidden by default) */
-    #quizModal {
+    /* Quiz card at bottom so you can still see AR scene */
+    #ecoQuiz {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
       display: none;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0,0,0,0.7);
-    }
-    /* Show when active */
-    #quizModal.active { display: flex; }
-    #quizModal .content {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
+      background: rgba(255,255,255,0.95);
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.3);
       max-width: 90%;
-      text-align: center;
+      z-index: 10;
+      font-family: sans-serif;
     }
-    #quizModal button { margin-top: 10px; }
+    #ecoQuiz.active { display: block; }
+    #ecoQuiz h2 { margin-top: 0; }
+    #ecoQuiz button { margin: 8px 4px 0; padding: 8px 12px; }
   </style>
 </head>
 <body>
 
-  <!-- 5) AR scene setup: embedded, use webcam, disable VR UI -->
-  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false;">
-    <!-- 6) Define a marker. 'hiro' is a default marker. Print or show it on another screen. -->
+  <!-- AR scene: embedded, webcam source, no VR UI -->
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false" vr-mode-ui="enabled: false">
+    <!-- Use the Hiro marker by default; swap to your custom PNG if you have one -->
     <a-marker preset="hiro">
-      <!-- 7) Your 3D model: replace URL with your .gltf/.glb model path -->
-      <a-entity gltf-model="url(Astronaut.glb)"
-                scale="0.5 0.5 0.5"
+      <!-- Example eco model: swap to trees, animals, etc. -->
+      <a-entity gltf-model="url(models/tree.gltf)"
+                scale="0.4 0.4 0.4"
                 rotation="0 180 0">
       </a-entity>
     </a-marker>
-
-    <!-- 8) Camera entity for AR.js -->
     <a-entity camera></a-entity>
   </a-scene>
 
-  <!-- 9) Quiz modal: hidden until AR scene loads -->
-  <div id="quizModal">
-    <div class="content">
-      <h2>Monument Quiz</h2>
-      <p>1. What year was this monument built?</p>
-      <button onclick="alert('You chose A!');">Answer A</button>
-      <button onclick="alert('You chose B!');">Answer B</button>
-      <!-- Add more questions/buttons as needed -->
-      <br />
-      <button id="closeQuiz">Close Quiz</button>
-    </div>
+  <!-- Ecological Tourism Quiz card -->
+  <div id="ecoQuiz">
+    <h2>Eco‑Tourism Quiz</h2>
+    <p>1. Which of these species is native to this region?</p>
+    <button onclick="alert('Correct!');">A: Native Orchid</button>
+    <button onclick="alert('Try again!');">B: Tropical Puffin</button>
+
+    <p>2. What practice helps conserve water when visiting?</p>
+    <button onclick="alert('Yes—short showers!');">A: Short Showers</button>
+    <button onclick="alert('Not eco‑friendly');">B: Filling Bathtubs</button>
+
+    <p>3. How should you dispose of food scraps?</p>
+    <button onclick="alert('Great—use the compost bin.');">A: Compost Bin</button>
+    <button onclick="alert('Oops—littering!');">B: Throw on Ground</button>
+
+    <br/><button id="closeEcoQuiz">Close Quiz</button>
   </div>
 
   <script>
-    // 10) When the AR scene is fully loaded, show the quiz
-    document.querySelector('a-scene').addEventListener('loaded', () => {
-      // Delay slightly to ensure model appears
-      setTimeout(() => {
-        document.getElementById('quizModal').classList.add('active');
-      }, 500);
+    const marker = document.querySelector('a-marker');
+    const quiz = document.getElementById('ecoQuiz');
+    // Show quiz when marker—and thus model—appears
+    marker.addEventListener('markerFound', () => {
+      quiz.classList.add('active');
     });
-    // 11) Close quiz button hides the modal
-    document.getElementById('closeQuiz').addEventListener('click', () => {
-      document.getElementById('quizModal').classList.remove('active');
+    // Hide quiz if marker is lost
+    marker.addEventListener('markerLost', () => {
+      quiz.classList.remove('active');
+    });
+    // Manual close
+    document.getElementById('closeEcoQuiz').addEventListener('click', () => {
+      quiz.classList.remove('active');
     });
   </script>
-
 </body>
 </html>
