@@ -3,13 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AR‑Driven Eco Quiz</title>
-  <!-- A‑Frame + AR.js -->
+  <title>AR‑Eco Quiz (Click to Reveal)</title>
   <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
   <style>
-    body, html { margin:0; padding:0; overflow:hidden; }
-    /* Answer buttons panel */
+    body, html { margin: 0; padding: 0; overflow: hidden; }
     #answers {
       position: absolute;
       bottom: 12px;
@@ -28,67 +26,58 @@
   </style>
 </head>
 <body>
-
-  <!-- AR scene -->
   <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false" vr-mode-ui="enabled: false">
     <a-marker preset="hiro">
       <!-- Your eco model -->
-      <a-entity gltf-model="url(models/tree.gltf)" scale="0.4 0.4 0.4" rotation="0 180 0"></a-entity>
+      <a-entity id="treeModel" gltf-model="url(models/tree.gltf)"
+                scale="0.4 0.4 0.4" rotation="0 180 0"
+                class="clickable"></a-entity>
 
-      <!-- AR Text Question Panel -->
+      <!-- Hidden quiz text panel -->
       <a-entity id="q1-panel" visible="false">
-        <!-- Background plane for contrast -->
-        <a-plane 
-          position="0 0.8 0" 
-          rotation="-90 0 0" 
-          width="1.2" 
-          height="0.5" 
-          color="#333" 
-          opacity="0.7">
-        </a-plane>
-        <!-- White quiz text -->
-        <a-text 
-          value="🌿 Eco Quiz:\nWhich practice conserves water?" 
-          align="center" 
-          position="0 0.8 0.01" 
-          rotation="-90 0 0" 
-          color="#FFF" 
-          width="1.1">
-        </a-text>
+        <a-plane position="0 0.8 0" rotation="-90 0 0" width="1.2" height="0.5" color="#333" opacity="0.7"></a-plane>
+        <a-text value="🌿 Eco Quiz:\nWhich practice conserves water?" align="center"
+                position="0 0.8 0.01" rotation="-90 0 0" color="#FFF" width="1.1"></a-text>
       </a-entity>
     </a-marker>
-
-    <a-entity camera></a-entity>
+    <!-- Camera + cursor for clicking -->
+    <a-entity camera cursor="rayOrigin: mouse"></a-entity>
   </a-scene>
 
-  <!-- Normal HTML answers (shows after AR question appears) -->
+  <!-- HTML answer buttons -->
   <div id="answers">
     <p>Select the correct answer:</p>
-    <button onclick="alert('👍 Correct – short showers!')">A) Take short showers</button>
-    <button onclick="alert('❌ Not quite – try again')">B) Fill the bathtub fully</button>
+    <button onclick="alert('👍 Correct – short showers!')">A) Short showers</button>
+    <button onclick="alert('❌ Not quite – try again')">B) Fill the tub</button>
     <br/><button id="close">Close</button>
   </div>
 
   <script>
     const marker = document.querySelector('a-marker');
+    const tree = document.getElementById('treeModel');
     const q1Panel = document.getElementById('q1-panel');
     const answers = document.getElementById('answers');
 
-    // When marker is found, show the AR question panel and the HTML answers
+    // When AR marker appears, make the model clickable
     marker.addEventListener('markerFound', () => {
-      q1Panel.setAttribute('visible', 'true');
-      answers.style.display = 'block';
+      tree.classList.add('clickable');
     });
-    // When marker is lost, hide both
     marker.addEventListener('markerLost', () => {
-      q1Panel.setAttribute('visible', 'false');
+      // Reset panel and answers
+      q1Panel.setAttribute('visible', false);
       answers.style.display = 'none';
     });
-    // Manual close of the answers panel
+
+    // On click of the 3D model, show question panel + answers
+    tree.addEventListener('click', () => {
+      q1Panel.setAttribute('visible', true);
+      answers.style.display = 'block';
+    });
+
+    // Close button hides answers
     document.getElementById('close').onclick = () => {
       answers.style.display = 'none';
     };
   </script>
-
 </body>
 </html>
